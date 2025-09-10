@@ -1,8 +1,8 @@
 package com.server.spring.security.jwt.service.impl;
 
-import com.server.spring.security.jwt.dto.reponse.JwtAuthenticationResponse;
-import com.server.spring.security.jwt.dto.request.SignUpRequest;
-import com.server.spring.security.jwt.dto.request.SigninRequest;
+import com.server.spring.security.jwt.dto.JwtAuthenticationResponse;
+import com.server.spring.security.jwt.dto.SignUpRequest;
+import com.server.spring.security.jwt.dto.SigninRequest;
 import com.server.spring.security.jwt.entity.Role;
 import com.server.spring.security.jwt.entity.User;
 import com.server.spring.security.jwt.repository.UserRepository;
