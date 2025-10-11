@@ -20,11 +20,19 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
+    /**
+     * Endpoint for user registration (signup).
+     * Accepts a SignUpRequest object and returns a JWT authentication response.
+     */
     @PostMapping("/signup")
     public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignUpRequest request) {
         return ResponseEntity.ok(authenticationService.signup(request));
     }
 
+    /**
+     * Endpoint for user authentication (signin).
+     * Accepts a SigninRequest object and returns a JWT authentication response.
+     */
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SigninRequest request) {
         return ResponseEntity.ok(authenticationService.signin(request));

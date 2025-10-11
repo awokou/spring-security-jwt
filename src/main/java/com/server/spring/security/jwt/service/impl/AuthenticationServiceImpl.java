@@ -28,6 +28,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     * User registration (signup) and authentication (signin) methods.
+     * Signup creates a new user, encodes the password, assigns a default role,
+     * saves the user to the repository, and generates a JWT token.
+     * Signin authenticates the user credentials and generates a JWT token upon success.
+     */
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
         var user = User.builder()
@@ -38,12 +44,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .role(Role.USER).build();
 
         userRepository.save(user);
-
         var jwt = jwtService.generateToken(user);
-
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
 
+    /**
+     * Authenticate user and generate JWT token.
+     * Throws IllegalArgumentException if authentication fails.
+     */
     @Override
     public JwtAuthenticationResponse signin(SigninRequest request) {
         authenticationManager.authenticate(
@@ -54,9 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
-
         var jwt = jwtService.generateToken(user);
-
         return JwtAuthenticationResponse.builder().token(jwt).build();
     }
 }

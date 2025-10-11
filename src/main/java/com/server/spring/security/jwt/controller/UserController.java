@@ -19,6 +19,9 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * CRUD operations for User entity
+     */
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         try {
@@ -28,12 +31,18 @@ public class UserController {
         }
     }
 
+    /**
+     * Get user by ID
+     */
     @GetMapping("/users/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Integer id) {
         Optional<UserDto> employee = userService.getUserById(id);
         return employee.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Create new user
+     */
     @PostMapping("/users")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
         try {
@@ -43,6 +52,9 @@ public class UserController {
         }
     }
 
+    /**
+     * Update user
+     */
     @PutMapping("/users/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable(name = "id") Integer id, @RequestBody UserDto userDto) {
         try {
@@ -53,6 +65,9 @@ public class UserController {
         }
     }
 
+    /**
+     * Delete user
+     */
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") Integer id) {
         userService.deleteUser(id);
