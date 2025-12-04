@@ -2,11 +2,7 @@ package com.server.spring.security.jwt.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class SignUpRequest {
     private String firstName;
     private String lastName;

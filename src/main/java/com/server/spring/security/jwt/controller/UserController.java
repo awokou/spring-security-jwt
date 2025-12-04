@@ -20,7 +20,7 @@ public class UserController {
     }
 
     /**
-     * CRUD operations for User entity
+     * Get all users
      */
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAllUsers() {

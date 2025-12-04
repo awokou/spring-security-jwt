@@ -3,6 +3,7 @@ package com.server.spring.security.jwt.entity;
 import java.util.Collection;
 import java.util.List;
 
+import com.server.spring.security.jwt.entity.enums.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,13 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.*;
 
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "users")
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id

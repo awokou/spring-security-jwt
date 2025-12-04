@@ -2,10 +2,7 @@ package com.server.spring.security.jwt.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 public class UserDto {
     private Integer id;

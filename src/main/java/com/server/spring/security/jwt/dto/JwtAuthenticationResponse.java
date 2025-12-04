@@ -2,11 +2,8 @@ package com.server.spring.security.jwt.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class JwtAuthenticationResponse {
     private String token;
 }

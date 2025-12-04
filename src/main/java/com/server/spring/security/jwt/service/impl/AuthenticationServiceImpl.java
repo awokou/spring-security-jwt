@@ -3,8 +3,9 @@ package com.server.spring.security.jwt.service.impl;
 import com.server.spring.security.jwt.dto.JwtAuthenticationResponse;
 import com.server.spring.security.jwt.dto.SignUpRequest;
 import com.server.spring.security.jwt.dto.SigninRequest;
-import com.server.spring.security.jwt.entity.Role;
+import com.server.spring.security.jwt.entity.enums.Role;
 import com.server.spring.security.jwt.entity.User;
+import com.server.spring.security.jwt.exception.UserAlreadyExistsException;
 import com.server.spring.security.jwt.repository.UserRepository;
 import com.server.spring.security.jwt.service.AuthenticationService;
 import com.server.spring.security.jwt.service.JwtService;
@@ -36,16 +37,29 @@ public class AuthenticationServiceImpl implements AuthenticationService {
      */
     @Override
     public JwtAuthenticationResponse signup(SignUpRequest request) {
-        var user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER).build();
 
+        // Vérifier si l'utilisateur existe déjà
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new UserAlreadyExistsException("L'utilisateur avec cet email existe déjà");
+        }
+
+        // Créer un nouvel utilisateur
+        User  user = new User();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER);
+
+        // Sauvegarder l'utilisateur dans la base
         userRepository.save(user);
+
+        // Générer un token JWT
         var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+
+        return JwtAuthenticationResponse.builder()
+                .token(jwt)
+                .build();
     }
 
     /**
@@ -63,6 +77,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
         var jwt = jwtService.generateToken(user);
-        return JwtAuthenticationResponse.builder().token(jwt).build();
+
+        return JwtAuthenticationResponse.builder()
+                .token(jwt)
+                .build();
     }
 }

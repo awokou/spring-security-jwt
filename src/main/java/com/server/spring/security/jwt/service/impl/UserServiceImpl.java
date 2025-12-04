@@ -1,7 +1,7 @@
 package com.server.spring.security.jwt.service.impl;
 
 import com.server.spring.security.jwt.dto.UserDto;
-import com.server.spring.security.jwt.entity.Role;
+import com.server.spring.security.jwt.entity.enums.Role;
 import com.server.spring.security.jwt.entity.User;
 import com.server.spring.security.jwt.repository.UserRepository;
 import com.server.spring.security.jwt.service.UserService;
@@ -24,20 +24,12 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    /**
-     * Load user by username (email in this case) for authentication
-     *
-     */
     @Override
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
-    /**
-     * CRUD operations for User entity
-     *
-     */
     @Override
     public List<UserDto> getAllUsers() {
         return userRepository.findAll().stream()
@@ -45,21 +37,12 @@ public class UserServiceImpl implements UserService {
                 .toList();
     }
 
-    /**
-     * Get user by ID
-     * @param id
-     * @return
-     */
     @Override
     public Optional<UserDto> getUserById(Integer id) {
         return userRepository.findById(id).map(this::convertToDTO);
     }
 
-    /**
-     * Save new user
-     * @param userDto
-     * @return
-     */
+
     @Override
     public UserDto saveUser(UserDto userDto) {
         User user = convertToEntity(userDto);
@@ -67,12 +50,6 @@ public class UserServiceImpl implements UserService {
         return convertToDTO(savedUser);
     }
 
-    /**
-     * Update existing user
-     * @param id
-     * @param userDto
-     * @return
-     */
     @Override
     public UserDto updateUser(Integer id, UserDto userDto) {
         User user = userRepository.findById(id).orElseThrow();
@@ -83,12 +60,6 @@ public class UserServiceImpl implements UserService {
         return convertToDTO(updatedUser);
     }
 
-    /**
-     * Delete user by ID
-     *
-     * @param id
-     * @return
-     */
     @Override
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
@@ -96,14 +67,15 @@ public class UserServiceImpl implements UserService {
 
     // Conversion methods between DTO and Entity
     private UserDto convertToDTO(User user) {
-        return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole().name());
+        return new UserDto(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getRole().name()
+        );
     }
 
-    /**
-     * For simplicity, password handling is omitted. In a real application, ensure to handle passwords securely.
-     * @param userDto
-     * @return
-     */
     private User convertToEntity(UserDto userDto) {
         User user = new User();
         user.setFirstName(userDto.getFirstName());

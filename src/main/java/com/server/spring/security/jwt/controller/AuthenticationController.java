@@ -19,7 +19,6 @@ public class AuthenticationController {
     public AuthenticationController(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
-
     /**
      * Endpoint for user registration (signup).
      * Accepts a SignUpRequest object and returns a JWT authentication response.

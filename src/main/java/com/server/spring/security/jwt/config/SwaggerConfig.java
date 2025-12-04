@@ -14,16 +14,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                contact = @Contact(name = "", email = "kawokou122@gmail.com", url = "#"),
-                description = "OpenApi documentation",
+                contact = @Contact(name = "ADMIN", email = "admin@gmail.com", url = "#"),
+                description = "Documentation API v1.0",
                 title = "OpenApi specification",
                 version = "1.0",
                 license = @License(name = "Licence name", url = "#"),
                 termsOfService = "Terms"
         ),
         servers = {
-                @Server(description = "Local ENV", url = "http://localhost:8080"),
-                @Server(description = "PROD ENV", url = "")
+                @Server(description = "Dev env", url = "http://localhost:8080"),
+                @Server(description = "Prod env", url = "")
         },
         security = {@SecurityRequirement(name = "bearerAuth")}
 )
@@ -34,4 +34,4 @@ import org.springframework.context.annotation.Configuration;
         type = SecuritySchemeType.HTTP,
         bearerFormat = "JWT",
         in = SecuritySchemeIn.HEADER)
-public class OpenApiConfig {}
+public class SwaggerConfig {}
